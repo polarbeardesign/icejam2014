@@ -1,0 +1,109 @@
+/**************** Polar Bear Design styles *****************/
+
+.scrolls {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  height: 480;
+  }
+
+.row {
+  float: left;
+  white-space: nowrap;
+  display: inline;
+  width: 650px;
+  }
+
+.tables { 
+  margin: 0;
+  height: 480px;
+  width: 12400px; /* for width of scroll item: each day is 100px wide = 3100px for 31 days */
+  } 
+
+.cell {
+  float: left;
+  }
+
+.hourly {
+  border-spacing: 0;
+  cellpadding: 0;
+  border-collapse: collapse;
+  }
+
+.hourly td {
+  border: 1px solid #999;
+
+  }
+
+.taken {
+  /*background: url("img/taken.jpg");*/
+  background: #cadbeb;
+  text-align: right;
+  }
+
+input {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 1.25em;
+  background: #e0eeff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  }
+
+h1 {
+  font-family: 'Rye', cursive;
+  font-size: 4em;
+  margin-bottom: 0em;
+  text-align: center;
+  }
+
+h2 {
+  font-family: 'Rye', cursive;
+  font-size: 2em;
+  margin-bottom: 1em;
+  text-align: center;
+  }
+
+p {
+  font-size: 1.25em;
+  }
+
+.error {
+  color: #cc0000;
+  }
+
+#login {
+  margin: 2em auto;
+  }
+
+.signout {
+  font-size: 0.75em;
+  text-align: right;
+  }
+
+.legible {
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin: 1em 0 1em 2em;
+  border: 1px solid #eee;
+  }
+
+.legible tr:nth-child(2n+3) {
+  background-color: #eee;
+  }
+
+.legible th {
+  padding: 0.5em;
+  background-color: #cadbeb;
+  border: 1px solid #eee;
+  }
+
+.legible td {
+  vertical-align: top;
+  padding: 0.5em;
+  border: 1px solid #eee;
+  }
+#pageName{
+  background: #fff url("../img/ICE_website_topbanner.jpg") no-repeat left top;
+  height: 400px;
+  }
