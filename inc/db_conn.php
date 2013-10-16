@@ -1,9 +1,10 @@
 <?php
 
 // db connection
-$db_name = "mv_gorge";
+
 if ($_SERVER['SERVER_NAME'] == "localhost")
 {
+$db_name = "mv_gorge";
   $connection = @mysql_connect("127.0.0.1","jri","tensai14") or die("Couldn't Connect.");
 }
 elseif ($_SERVER['SERVER_NAME'] == "10.0.1.6")
@@ -12,6 +13,7 @@ elseif ($_SERVER['SERVER_NAME'] == "10.0.1.6")
 }
 else 
 {
+  $db_name = "polarbea_gorge_db";
   $connection = @mysql_connect("127.0.0.1","polarbea_web","tensai14") or die("Couldn't Connect.");
 }
 

@@ -171,43 +171,13 @@ MM_reloadPage(true);
             } ?>
         </table>
     </form>
+</section>
 
 
-</div> 
-   <div id="siteInfo">     
-     <div align="center" class="style8">
-       <div align="left" class="style9"><span class="storyLeft"><a href="privacypolicy.htm">Privacy Policy</a> | <a href="sitemap.xml">Site Map</a> | &copy;2011 Madison Valley Medical Center Foundation, Inc. All rights reserved.</span></div>
-     </div>
-   </div> 
-</div> 
-<span class="storyLeft"><!--end pagecell1--> 
-<br> 
-<script type="text/javascript">
-    <!--
-      var menuitem1 = new menu(7,1,"hidden");
-			var menuitem2 = new menu(7,2,"hidden");
-			var menuitem3 = new menu(7,3,"hidden");
-			var menuitem4 = new menu(7,4,"hidden");
-			var menuitem5 = new menu(7,5,"hidden");
-			var menuitem6 = new menu(7,6,"hidden");
-			var menuitem7 = new menu(7,7,"hidden");
-    // -->
-    </script> 
-</span>
-<script type="text/javascript">
+<div style="clear: both;"></div>
+</div>
 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-22017961-1']);
-  _gaq.push(['_setDomainName', 'none']);
-  _gaq.push(['_setAllowLinker', true]);
-  _gaq.push(['_trackPageview']);
+</div>
 
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script>
 </body>
 </html>
