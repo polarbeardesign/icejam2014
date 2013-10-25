@@ -1,5 +1,9 @@
 <?php
+// production
+//$identity_token = "HboVy9I5G3br-uNqxumlAFB1mmgFLz0NJQwMlseZMf6lfRN0fVyviib0lrS";
 
+// sandbox
+$identity_token = "XC-RVBLamoaBjbaRR_46H0Rr_veMEbUGuFHnHQMXReu2DIotjZO0uHQqBUe";
 
 include('inc/db_conn.php');
 
@@ -210,6 +214,8 @@ while ($row = mysql_fetch_array($total_time_slots));
 <h1>Ice Jam  - Thank You!</h1>
 
 <p>Thank you for your participation in the Predict the Madison River Gorge Fundraiser. Your donation helps fund vital services at the Madison Valley Medical Center Foundation.</p>
+
+<p>Your transaction has been completed, and a receipt for your purchase has been emailed to you. You may log into your account at www.paypal.com/us to view details of this transaction.</p>
 
 <p>The following information has been recorded.</p>
 

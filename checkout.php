@@ -9,10 +9,58 @@ include('inc/db_conn.php');
 
 //print_r($_POST);
 
+if (count($_POST) == 1)
+  { ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Ice Jam: supporting Madison Valley Medical Center Foundation</title>
+<meta name="description" content= "Madison Valley Medical Center (MVMC) Foundation supporting high quality health care with modern services and qualified professionals"/>
+<link rel="stylesheet" href="inc/gorge_styles.css" type="text/css">
+</head>
+
+<body>
+
+<div id="container">
+<div id="page_content">
+
+<section id="header">
+<a href="index.php"><img src="img/ICE_website_topbanner.jpg" width="95%" /></a>
+</section>
+
+<section id="content_left">
+<h2>Learn More</h2>
+<p>Ice Jam supports the Madison Valley Medical Center Foundation. <a href="http://mvmcf.org/">Visit our site</a> to learn more about what we do.</p>
+</section>
+
+<section id="content_main">
+
+<h1>Error</h1> 
+<p>It appears you did not select a time slot. Please use your browser's back button and make a time slot selection.</p>
+
+
+</div> 
+</section>
+
+
+<div style="clear: both;"></div>
+</div>
+
+</div>
+
+</body>
+</html>  
+  
+<?php  
+   ;}
+  else
+  {
+
 $length = count($_POST) - 1;
 $selections = array_slice($_POST, 0, $length, true);
 
-$total_cost = 10 * $length;
+$total_cost = 20 * $length;
 
 $time_slot_id .= "(";
 foreach ($selections as $key => $selections)
@@ -37,7 +85,7 @@ $sql_time_slots .= "ORDER BY start_time_f, start_time";
 
 $total_time_slots = @mysql_query($sql_time_slots, $connection) or die("Error #". mysql_errno() . ": " . mysql_error());
 $total_found_time_slots = @mysql_num_rows($total_time_slots);
-
+  $index = 1;
 do {
 
   if ($row['start_time_f'] != '')
@@ -46,12 +94,14 @@ do {
 $display_block .="<tr>
   <td style=\"padding: 0.5em; border-bottom: 1px solid #ccc;\">" . $row['start_date'] . "</td><td style=\"border-bottom: 1px solid #ccc;\">&nbsp;&nbsp;&nbsp; " . $row['start_time_f'] . " - " . $row['end_time_f'] . "</td>";
   $slots_chosen_array[] =  $row['id'];
+
+$paypal_block .="
+<input type=\"hidden\" name=\"item_name_" . $index . "\" value=\"#" . $row['id'] . ", " . $row['start_date'] . ", " . $row['start_time_f'] . " - " . $row['end_time_f'] . "\">
+<input type=\"hidden\" name=\"amount_" . $index . "\" value=\"20.00\">";
+$index = $index + 1;
   }
 }
 while ($row = mysql_fetch_array($total_time_slots));
-
-
-
 
 
 
@@ -64,6 +114,20 @@ while ($row = mysql_fetch_array($total_time_slots));
 <title>Ice Jam: supporting Madison Valley Medical Center Foundation</title>
 <meta name="description" content= "Madison Valley Medical Center (MVMC) Foundation supporting high quality health care with modern services and qualified professionals"/>
 <link rel="stylesheet" href="inc/gorge_styles.css" type="text/css">
+<link rel="stylesheet" href="inc/validationEngine.jquery.css" type="text/css"/>
+
+        <script src="inc/jquery-1.6.min.js" type="text/javascript">
+        </script>
+        <script src="inc/languages/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8">
+        </script>
+        <script src="inc/jquery.validationEngine.js" type="text/javascript" charset="utf-8">
+        </script>
+        <script>
+            jQuery(document).ready(function(){
+                // binds form submission and fields to the validation engine
+                jQuery("#formID").validationEngine();
+            });
+        </script>
 </head>
 
 <body>
@@ -186,6 +250,9 @@ echo "<input type=\"hidden\" name=\"time_ids[]\" value=$selections />";
 
 
 </div> 
+
+<?php echo $paypal_block ?>
+
 </section>
 
 
@@ -196,3 +263,6 @@ echo "<input type=\"hidden\" name=\"time_ids[]\" value=$selections />";
 
 </body>
 </html>
+<?php
+;}
+?>
