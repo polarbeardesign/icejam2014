@@ -26,7 +26,7 @@ $total_found_summary_slots = @mysql_num_rows($total_summary_slots);
 while ($row = mysql_fetch_array($total_summary_slots)) {
 
 $qty=$row['qty'];
-$revenue = number_format($qty * 10, 2);
+$revenue = number_format($qty * 20, 2);
 
 }
 
@@ -83,6 +83,8 @@ while ($row = mysql_fetch_array($total_time_slots));
 
 <body>
 
+<?php include_once("../inc/analyticstracking.php") ?>
+
 <div id="container">
 <div id="page_content">
 
@@ -100,7 +102,7 @@ while ($row = mysql_fetch_array($total_time_slots));
 <h1>Ice Jam Admin</h1>
 
 <h2 style="margin: 1em 0;">Overview</h2>
-<p>There have been <?php echo $qty ?> orders to date, totaling $<?php echo $revenue ?>.</p>
+<p>There have been <?php echo $qty ?> selections to date, totaling $<?php echo $revenue ?>.</p>
 <h2>Donor List</h2>
 
 <table class="legible">
@@ -114,7 +116,9 @@ while ($row = mysql_fetch_array($total_time_slots));
 
 <div style="clear: both;"></div>
 </div>
-
+<section id="footer">
+  <?php include("../inc/footer.php") ?>
+</section>
 </div>
 
 </body>

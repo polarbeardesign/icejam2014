@@ -22,6 +22,8 @@ if (count($_POST) == 1)
 
 <body>
 
+<?php include_once("inc/analyticstracking.php") ?>
+
 <div id="container">
 <div id="page_content">
 
@@ -46,7 +48,9 @@ if (count($_POST) == 1)
 
 <div style="clear: both;"></div>
 </div>
-
+<section id="footer">
+  <?php include("inc/footer.php") ?>
+</section>
 </div>
 
 </body>
@@ -97,7 +101,8 @@ $display_block .="<tr>
 
 $paypal_block .="
 <input type=\"hidden\" name=\"item_name_" . $index . "\" value=\"#" . $row['id'] . ", " . $row['start_date'] . ", " . $row['start_time_f'] . " - " . $row['end_time_f'] . "\">
-<input type=\"hidden\" name=\"amount_" . $index . "\" value=\"20.00\">";
+<input type=\"hidden\" name=\"amount_" . $index . "\" value=\"20.00\">
+<input type=\"hidden\" name=\"quantity_" . $index . "\" value=\"1\">";
 $index = $index + 1;
   }
 }
@@ -132,6 +137,8 @@ while ($row = mysql_fetch_array($total_time_slots));
 
 <body>
 
+<?php include_once("inc/analyticstracking.php") ?>
+
 <div id="container">
 <div id="page_content">
 
@@ -146,7 +153,7 @@ while ($row = mysql_fetch_array($total_time_slots));
 
 <section id="content_main">
 
-<p>You have picked the following <?php if ($length > 1) {echo "$length timeslots";} else {echo "timeslot";} ?> for the river to gorge:</p>
+<p>You have picked the following <?php if ($length > 1) {echo "$length timeslots";} else {echo "timeslot";} ?> for the Madison River to ice gorge:</p>
 
 <table cellspacing="0" style="margin: 0 0 0 4em;">
 <tr >
@@ -156,107 +163,30 @@ while ($row = mysql_fetch_array($total_time_slots));
 <p>For a total of <strong>$<?php echo number_format($total_cost,2) ?></strong>.</p>
 
 
-<p>If you would like to enter these times into the contest, fill out and submit the form below.</p>
+<p>If you would like to enter these times slots into the raffle, click the PayPal<sup>&reg;</sup> "Buy Now" button below to complete your transaction. Madison Valley Medical Center Foundation utilizes PayPal<sup>&reg;</sup> for ICE JAM payment transaction processing.</p>
 
-<hr />
-<form id="formID" method="post" name="PaymentInfo" action="thank_you.php">
-
-<h3 style="margin: 1em 0 1em 0;">Contact Information</h3>
-
-<table class="indent" style="margin: 0 0 0 4em;">
-    <tr>
-    <td class="no_brder" colspan='2'><label for="FirstName">* First Name</label><br /><input class="validate[required] text-input" type='text' id='FirstName' name='shipTo_firstName' value=''></td>
-    <td class="no_brder" colspan='2'><label for="">* Last Name</label><br /><input class="validate[required] text-input" type='text' id='LastName' name='shipTo_lastName' value=''></td>
-    </tr>
-    <tr>
-        <td class="no_brder" colspan='2'><label for="">Affiliation/Company</label><br /><input type='text' name='affiliation' value=''></td>
-    </tr>
-    <tr>
-      <td class="no_brder" colspan='2'><label for="">* Email</label><br /><input class="validate[required,custom[email]]" type='text' id='email' name='billTo_email' value=''></td>
-      <td class="no_brder" colspan='2'><label for="">* Confirm Email</label><br /><input class="validate[required,equals[email]]" type='text' id='ecom_billto_online_email' name='ecom_billto_online_email' value=''></td>
-    </tr>
-    <tr>
-      <td class="no_brder" colspan='2'><label for="">Address 1</label><br /><input type='text' id='Addr1'  name='shipTo_street1' value=''></td>
-      <td class="no_brder" colspan='4'><label for="">Address 2</label><br /><input type='text' id='Addr2' name='shipTo_street2' value=''></td>
-    </tr>
-    <tr>
-    <td class="no_brder" colspan='2'><label for="">City</label><br /><input type='text' id='City' name='shipTo_city' value=''></td>
-    <td class="no_brder"><label for="">State</label><br /><input type='text' size='3' id='State' name='shipTo_state' value=''></td>
-    <td class="no_brder"><label for="">Zip</label><br /><input type='text' size='10' id='ZipCode' name='shipTo_postalCode' value=''></td>
-    <td class="no_brder"> </td>
-
-    </tr>
-</table>
-
-<h3 style="margin: 2em 0 1em 0;">Payment Information</h3>
-
-<table class="indent" style="margin: 0 0 0 4em;">
-    <tr>
-        <td class="no_brder" ><label for="">* Credit Card Number</label><br /><input  class="validate[required,creditCard] text-input" type='text' id='ecom_payment_card_number' name='card_accountNumber' value=''></td>
-        <td class="no_brder" ><label for="">* Card Type:</label><br />
-            <select class="validate[required]" id="card_cardType" name='card_cardType'>
-            <?php foreach ($ccards as $key => $card_cardType) {
-            echo "<option value='$key'>$card_cardType</option>";
-            } ?></select>
-        </td>
-        <td class="no_brder"><label for="">* Expiration Date</label><br />
-        <select class="validate[required]" id='ecom_payment_card_expdate_month' name='card_expirationMonth'>
-           <?php foreach ($months as $key =>  $card_expirationMonth) {
-            echo "<option value='$key'>$card_expirationMonth</option>";
-            } ?></select>
-        <select class="validate[required]" id='ecom_payment_card_expdate_year' name='card_expirationYear'>
-           <?php foreach ($years as $key =>  $card_expirationYear) {
-            echo "<option value='$key'>$card_expirationYear</option>";
-            } ?></select>
-      </td>
-    </tr>
-</table>
-
-<h3 style="margin: 2em 0 1em 0;">Credit Card Billing Information</h3>
-
-<table class="form indent" style="margin: 0 0 0 4em;">
-
-    <tr><td class="no_brder" colspan='6'>Same as contact information <input type="checkbox" name="SameBillAsShip" id="SameBillAsShip""/></td></tr>
-    <tr>
-      <td class="no_brder" colspan='3'><label for="">* First Name</label><br /><input class="validate[required] text-input" type='text' size="24" id='ecom_billto_postal_name_first' name='billTo_firstName' value=''></td>
-        <td class="no_brder" colspan='3'><label for="">* Last Name</label><br /><input class="validate[required] text-input" type='text' size="24" id='ecom_billto_postal_name_last' name='billTo_lastName' value=''></td>
-    </tr>
-    <tr>
-        <td class="no_brder" colspan='3'><label for="">* Address 1</label><br /><input class="validate[required] text-input" type='text'  id='ecom_billto_postal_street_line1' name='billTo_street1' value=''></td>
-        <td class="no_brder" colspan='3'><label for="">Address 2</label><br /><input type='text'  id='ecom_billto_postal_street_line2' name='billTo_street2' value=''></td>
-    </tr>
-    <tr>
-        <td class="no_brder" colspan='2'><label for="">* City</label><br /><input class="validate[required] text-input" type='text' size="15" id='ecom_billto_postal_city' name='billTo_city' value=''></td>
-        <td class="no_brder"><label for="">* State</label><br /><input class="validate[required] text-input" type='text' size="3" id='ecom_billto_postal_stateprov' name='billTo_state' value=''></td>
-        <td class="no_brder"><label for="">* Zip</label><br /><input class="validate[required] text-input" type='text' size="11" id='ecom_billto_postal_postalcode' name='billTo_postalCode' value=''></td>
-    </td>
-    </tr>
-    <tr>
-      <td class="no_brder" colspan='6'><label for="">* Phone</label><br /><input class="validate[required,custom[phone]]" type='text' id='phone' name='billTo_phoneNumber' value=''></td>
-    </tr>
-</table>
-
-<?php
-foreach ($slots_chosen_array as $key => $selections)
-{
-echo "<input type=\"hidden\" name=\"time_ids[]\" value=$selections />";
-}
-?>
-<hr />
+<!-- switch between sandbox and www and business name jim30@toliveistofly.com vs ctrapp@mvmcf.org -->
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<input type="hidden" name="cmd" value="_cart">
+<input type="hidden" name="upload" value="1">
+<input type="hidden" name="business" value="ctrapp@mvmcf.org">
+<?php echo $paypal_block ?>
 <div align="center">
-  <input type="submit" name="Submit" value="Submit">
+<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
 </div>
 </form>
 
-
 </div> 
 
-<?php echo $paypal_block ?>
+
 
 </section>
 
-
 <div style="clear: both;"></div>
+<section id="footer">
+  <?php include("inc/footer.php") ?>
+</section>
 </div>
 
 </div>

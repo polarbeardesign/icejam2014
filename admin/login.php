@@ -21,6 +21,8 @@ date_default_timezone_set("America/Chicago");
 
 <body>
 
+<?php include_once("../inc/analyticstracking.php") ?>
+
 <div id="container">
 <div id="page_content">
 
@@ -64,7 +66,9 @@ date_default_timezone_set("America/Chicago");
 
 <div style="clear: both;"></div>
 </div>
-
+<section id="footer">
+  <?php include("../inc/footer.php") ?>
+</section>
 </div>
 
 </body>

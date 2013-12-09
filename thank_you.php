@@ -3,7 +3,78 @@
 //$identity_token = "HboVy9I5G3br-uNqxumlAFB1mmgFLz0NJQwMlseZMf6lfRN0fVyviib0lrS";
 
 // sandbox
-$identity_token = "XC-RVBLamoaBjbaRR_46H0Rr_veMEbUGuFHnHQMXReu2DIotjZO0uHQqBUe";
+//$identity_token = "XC-RVBLamoaBjbaRR_46H0Rr_veMEbUGuFHnHQMXReu2DIotjZO0uHQqBUe";
+
+//=============================================================================
+// PDT code
+//=============================================================================
+
+// switch $to https://www.paypal.com || https://www.sandbox.paypal.com and $token for testing and production
+
+$to = "https://www.paypal.com/cgi-bin/webscr";
+$token = "HboVy9I5G3br-uNqxumlAFB1mmgFLz0NJQwMlseZMf6lfRN0fVyviib0lrS";
+$cmd = "_notify-synch";
+$arr_var;
+$posted;
+
+if ($_GET['tx'])
+  {
+
+  $conn = curl_init($to);
+  curl_setopt($conn, CURLOPT_HEADER, 0);
+  curl_setopt($conn, CURLOPT_NOBODY, 0);
+  curl_setopt($conn, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($conn, CURLOPT_USERAGENT, "Mozilla/5.0");
+  curl_setopt($conn, CURLOPT_FOLLOWLOCATION, 1);
+  curl_setopt($conn, CURLOPT_SSL_VERIFYPEER, 1);
+  curl_setopt($conn, CURLOPT_POST, 1);
+  curl_setopt($conn, CURLOPT_POSTFIELDS, array(
+		'cmd' => $cmd,
+		'tx' => $_GET['tx'],
+		'at' => $token));
+
+  if (!$page = curl_exec($conn))
+	{
+	echo curl_error($conn);
+	curl_close($conn);
+	}
+  else
+    {
+
+    $arr_var = preg_split("/\n/", $page);
+
+    if ($arr_var[0] == "FAIL")
+	{echo "Error getting data";}
+    else if ($arr_var[0] == "SUCCESS")
+	{
+
+	for ($a=1; $a<count($arr_var); $a++)
+	  {
+
+	  list ($key, $val) = preg_split("/\=/", $arr_var[$a]);
+	  $val = preg_replace('/\+/', ' ', $val);
+
+	  # # # # # # # # # # # # # # # # # # # # # # # # #
+	  # # This is a single line 
+
+	  $val = preg_replace('/%([\da-f][\da-f])/ei',"chr(hexdec('\\1'))", $val);
+
+	  # # This is a single line 
+	  # # # # # # # # # # # # # # # # # # # # # # # # #
+
+	  $posted[$key] = $val;
+
+	  }
+
+	}
+
+      curl_close($conn);
+
+    }
+
+  }
+
+//================================================================================
 
 include('inc/db_conn.php');
 
@@ -11,15 +82,16 @@ include('inc/db_conn.php');
 // donors
 //=======================================
 
-$shipTo_firstName = ucfirst($_POST['shipTo_firstName']);
-$shipTo_lastName = ucfirst($_POST['shipTo_lastName']);
-$affiliation = $_POST['affiliation'];
-$shipTo_street1 = $_POST['shipTo_street1'];
-$shipTo_street2 = $_POST['shipTo_street2'];
-$shipTo_city = ucfirst($_POST['shipTo_city']);
-$shipTo_state = strtoupper($_POST['shipTo_state']);
-$shipTo_postalCode = $_POST['shipTo_postalCode'];
-$shipTo_country = "US";
+$shipTo_firstName = $posted[first_name];
+$shipTo_lastName = $posted[last_name];
+$affiliation = $posted[payer_business_name];
+$shipTo_street1 = $posted[address_street];
+//$shipTo_street2 = $posted[address_street];
+$shipTo_city = $posted[address_city];
+$shipTo_state = $posted[address_state];
+$shipTo_postalCode = $posted[address_zip];
+$shipTo_country = $posted[address_country_code];
+$billTo_email = $posted[payer_email];
 
 //=======================================
 // enter info into donors
@@ -32,7 +104,7 @@ $sql_donor .= "last_name, ";
 $sql_donor .= "affiliation, ";
 $sql_donor .= "email, ";
 $sql_donor .= "address1, ";
-$sql_donor .= "address2, ";
+//$sql_donor .= "address2, ";
 $sql_donor .= "city, ";
 $sql_donor .= "state, ";
 $sql_donor .= "postal_code, ";
@@ -46,7 +118,7 @@ $sql_donor .= "\"$shipTo_lastName\", ";
 $sql_donor .= "\"$affiliation\", ";
 $sql_donor .= "\"$billTo_email\", ";
 $sql_donor .= "\"$shipTo_street1\", ";
-$sql_donor .= "\"$shipTo_street2\", ";
+//$sql_donor .= "\"$shipTo_street2\", ";
 $sql_donor .= "\"$shipTo_city\", ";
 $sql_donor .= "\"$shipTo_state\", ";
 $sql_donor .= "\"$shipTo_postalCode\", ";
@@ -77,15 +149,15 @@ while ($row = mysql_fetch_array($result_donor_id))
 // billings
 //=======================================
 
-$billTo_firstName = ucfirst($_POST['billTo_firstName']);
-$billTo_lastName = ucfirst($_POST['billTo_lastName']);
-$billTo_street1 = $_POST['billTo_street1'];
-$billTo_street2 = $_POST['billTo_street2'];
-$billTo_city = ucfirst($_POST['billTo_city']);
-$billTo_state = strtoupper($_POST['billTo_state']);
-$billTo_postalCode = $_POST['billTo_postalCode'];
-$billTo_country = "US";
-$billTo_phoneNumber = $_POST['billTo_phoneNumber'];
+$billTo_firstName = $posted[first_name];
+$billTo_lastName = $posted[last_name];
+$billTo_street1 = $posted[address_street];
+//$billTo_street2 = $_POST['billTo_street2'];
+$billTo_city = $posted[address_city];
+$billTo_state = $posted[address_state];
+$billTo_postalCode = $posted[address_zip];
+$billTo_country = $posted[address_country_code];
+//$billTo_phoneNumber = $_POST['billTo_phoneNumber'];
 
 //=======================================
 // enter info into billings
@@ -127,8 +199,17 @@ $result_billing = @mysql_query($sql_billing, $connection) or die("Error #". mysq
 //=======================================
 // enter info into time_slots
 //=======================================
+//item_name
 
-foreach ($_POST['time_ids'] as $key => $times_selected)
+$time_ids = array_key_exists_wildcard("item_name*", $posted);
+
+foreach ($time_ids as &$value)
+ {
+  $value = substr($value, 1, stripos($value, ',')-1);
+ }
+
+
+foreach ($time_ids as $key => $times_selected)
 {
 $sql_days ="INSERT INTO selections ";
 $sql_days .="(donor_id, ";
@@ -150,7 +231,7 @@ $result_days = @mysql_query($sql_days, $connection) or die("Error #". mysql_errn
 //=======================================
 
 $time_slot_id .= "(";
-foreach ($_POST['time_ids'] as $key => $selections)
+foreach ($time_ids as $key => $selections)
 {
 $time_slot_id .= $selections.",";
 }
@@ -179,12 +260,29 @@ do {
   {
 
 $display_block .="<tr>
-  <td style=\"padding: 0.5em; border-bottom: 1px solid #ccc;\">" . $row['start_date'] . "</td><td style=\"border-bottom: 1px solid #ccc;\">&nbsp;&nbsp;&nbsp; " . $row['start_time_f'] . " - " . $row['end_time_f'] . "</td>";
-  $slots_chosen_array[] =  $row['id'];
+  <td style=\"padding: 0.5em; border-bottom: 1px solid #ccc;\">" . $row['start_date'] . "</td><td style=\"border-bottom: 1px solid #ccc;\">&nbsp;&nbsp;&nbsp; " . $row['start_time_f'] . " - " . $row['end_time_f'] . "</td>
+  </tr>";
+//  $slots_chosen_array[] =  $row['id'];
   }
 }
 while ($row = mysql_fetch_array($total_time_slots));
 
+function array_key_exists_wildcard($sWildKey, $aArray)
+{
+    $sPattern = sprintf(
+        '~%s~',
+        str_replace('\*', '(.{1})', preg_quote($sWildKey))
+    );
+    $aFinal = array();
+    foreach ($aArray as $mKey => $mValue)
+    {
+        if(preg_match($sPattern, $mKey))
+        {
+            $aFinal[$mKey] = $mValue;
+        }
+    }
+    return $aFinal;
+}
 
 ?>
 
@@ -197,6 +295,8 @@ while ($row = mysql_fetch_array($total_time_slots));
 </head>
 
 <body>
+
+<?php include_once("inc/analyticstracking.php") ?>
 
 <div id="container">
 <div id="page_content">
@@ -215,36 +315,33 @@ while ($row = mysql_fetch_array($total_time_slots));
 
 <p>Thank you for your participation in the Predict the Madison River Gorge Fundraiser. Your donation helps fund vital services at the Madison Valley Medical Center Foundation.</p>
 
-<p>Your transaction has been completed, and a receipt for your purchase has been emailed to you. You may log into your account at www.paypal.com/us to view details of this transaction.</p>
+<p>Your transaction has been completed, and a receipt for your purchase has been emailed to you. You may log into your account at <a href="www.paypal.com">www.paypal.com</a> to view details of this transaction.</p>
 
 <p>The following information has been recorded.</p>
 
+<hr />
+Results: <strong><?php echo $posted[payment_status]; ?></strong>
+<hr />
+
 <table>
   <tr>
-    <th colspan="2" style="text-align: left;">Donor Info</th>
-    <th width="75">&nbsp;</th>
-    <th colspan="2" style="text-align: left;">Billing Info</th>
+    <th colspan="2" style="text-align: left;">Contact Info</th>
   </tr>
   <tr>
     <td>Name:</td>
-    <td><?php echo "$shipTo_firstName $shipTo_lastName" ?></td>
-    <td>&nbsp;</td>
-    <td>Name:</td>
-    <td><?php echo "$billTo_firstName $billTo_lastName" ?></td>
+    <td><?php echo $posted[first_name]; ?> <?php echo $posted[last_name]; ?></td>
+  </tr>
+  <tr>
+    <td>Email:</td>
+    <td><?php echo $posted[payer_email]; ?></td>
   </tr>
   <tr>
     <td>Address:</td>
-    <td><?php echo "$shipTo_street1" ?><?php if ($shipTo_street1 !="") { echo "<br />$shipTo_street2";} ?></td>
-    <td>&nbsp;</td>
-    <td>Address:</td>
-    <td><?php echo "$shipTo_street1" ?><?php if ($shipTo_street1 !="") { echo "<br />$shipTo_street2";} ?></td>
+    <td><?php echo $posted[address_street]; ?><?php if ($shipTo_street1 !="") { echo "<br />$shipTo_street2";} ?></td>
   </tr>
   <tr>
     <td>&nbsp;</td>
-    <td><?php echo "$shipTo_city, $shipTo_state $shipTo_postalCode" ?></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td><?php echo "$billTo_city, $billTo_state $billTo_postalCode" ?></td>
+    <td><?php echo "$posted[address_city], $posted[address_state] $posted[address_zip]"; ?></td>
   </tr>
 </table>
 
@@ -253,10 +350,11 @@ while ($row = mysql_fetch_array($total_time_slots));
 
 
 <table cellspacing="0" style="margin: 0 0 0 4em;">
-<tr >
+
  <?php echo $display_block ?>
-</tr>
+
 </table>
+<hr />
 
 </div> 
 </section>
@@ -264,7 +362,9 @@ while ($row = mysql_fetch_array($total_time_slots));
 
 <div style="clear: both;"></div>
 </div>
-
+<section id="footer">
+  <?php include("inc/footer.php") ?>
+</section>
 </div>
 
 </body>

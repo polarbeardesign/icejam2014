@@ -111,6 +111,23 @@ body {
   font-size: 0.75em;
   }
 
+#footer {
+  margin: 2em auto 0;
+  border-top:  1px solid #ccc;
+  width: 95%;
+  text-align: center;
+  font-size: 0.75em;
+  }
+
+a:link, a:visited{
+	color: #003399;
+	text-decoration: none;
+}
+
+a:hover{
+	text-decoration: underline;
+}
+
 .scrolls {
   overflow-x: scroll;
   overflow-y: hidden;
@@ -129,6 +146,16 @@ body {
   height: 480px;
   width: 10268px; /* for width of scroll item: each day is 100px wide = 3100px for 31 days */
   } 
+
+.time_table_header {
+  background: #fff;
+  text-align: center;
+  font-weight: bold;
+  }
+
+.time_table_body {
+  background: #fff;
+  }
 
 .cell {
   float: left;

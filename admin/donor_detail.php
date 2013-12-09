@@ -64,6 +64,8 @@ $country = $row['country'];
 
 <body>
 
+<?php include_once("../inc/analyticstracking.php") ?>
+
 <div id="container">
 <div id="page_content">
 
@@ -104,7 +106,9 @@ $country = $row['country'];
 
 <div style="clear: both;"></div>
 </div>
-
+<section id="footer">
+  <?php include("../inc/footer.php") ?>
+</section>
 </div>
 
 </body>
