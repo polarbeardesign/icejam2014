@@ -144,7 +144,7 @@ a:hover{
 .tables { 
   margin: 0;
   height: 480px;
-  width: 10268px; /* for width of scroll item: each day is 100px wide = 3100px for 31 days */
+  width: 8168px; /* for width of scroll item: each day is 100px wide = 3100px for 31 days */
   } 
 
 .time_table_header {

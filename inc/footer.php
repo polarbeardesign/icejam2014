@@ -1,1 +1,1 @@
-<p>Copyright &copy; 2013 <a href="http://mvmcf.org/">Madison Valley Medical Center Foundation</a></p>
+<p>Copyright &copy; 2014 <a href="http://mvmcf.org/">Madison Valley Medical Center Foundation</a></p>
