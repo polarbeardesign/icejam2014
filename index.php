@@ -155,7 +155,7 @@ $(document).ready(function () {
 
 <p>The one individual who purchases the correct date and time within the hour that the Madison River ice gorges will win-half of the proceeds raised at Ice Jam! The Madison Valley Medical Center Foundation will retain the other half of the proceeds raised.</p>
 
-<p>$10 buys a 1-hour time slot. You may purchase as many slots as you wish. The odds of winning are based on the total number of time slots sold and climatological activity.</p>
+<div style="float: left; margin: 0 1em 0 0;"><img src="img/early_bird_104_90.png" width="104" height="90" alt="early bird"  /></div><p>Offering Early-Bird time slot pricing from July 1, 2014 &#8211; November 1, 2014  where $10 buys a 1-hour time slot. You may purchase as many slots as you wish.  After November 1, 2014,  a 1-hour time slot will be sold at regular pricing where $20 buys a 1-hour time slot. The odds of winning are based on the total number of time slots sold and climatological activity.</p>
 <a name="tocs"></a>
 <p>If no one purchases the winning time slot and/or if the Madison River does not ice gorge at the Ennis Bridge, the Madison Valley Medical Center Foundation will retain half of the proceeds raised and the other half of the proceeds raised will roll-over to the following year's Ice Jam fundraiser proceeds.</p>
 

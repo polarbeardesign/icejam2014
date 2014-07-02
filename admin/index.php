@@ -18,7 +18,8 @@ date_default_timezone_set("America/Chicago");
 
 $sql_summary_slots = "SELECT ";
 $sql_summary_slots .= "COUNT(time_slot_id) AS qty ";
-$sql_summary_slots .= "FROM selections";
+$sql_summary_slots .= "FROM selections ";
+$sql_summary_slots .= "WHERE selections.created_at > \"2014-06-15\"";
 
 $total_summary_slots = @mysql_query($sql_summary_slots, $connection) or die("Error #". mysql_errno() . ": " . mysql_error());
 $total_found_summary_slots = @mysql_num_rows($total_summary_slots);
@@ -48,6 +49,7 @@ $sql_time_slots .= "LEFT JOIN  time_slots ";
 $sql_time_slots .= "ON time_slots.id = time_slot_id ";
 $sql_time_slots .= "LEFT JOIN  donors ";
 $sql_time_slots .= "ON donors.id = donor_id ";
+$sql_time_slots .= "WHERE selections.created_at > \"2014-06-15\" ";
 $sql_time_slots .= "ORDER BY start_time_f, start_time";
 
 $total_time_slots = @mysql_query($sql_time_slots, $connection) or die("Error #". mysql_errno() . ": " . mysql_error());

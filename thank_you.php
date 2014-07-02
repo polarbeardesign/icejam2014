@@ -11,8 +11,8 @@
 
 // switch $to https://www.paypal.com || https://www.sandbox.paypal.com and $token for testing and production
 
-$to = "https://www.paypal.com/cgi-bin/webscr";
-$token = "HboVy9I5G3br-uNqxumlAFB1mmgFLz0NJQwMlseZMf6lfRN0fVyviib0lrS";
+$to = "https://www.sandbox.paypal.com/cgi-bin/webscr";
+$token = "XC-RVBLamoaBjbaRR_46H0Rr_veMEbUGuFHnHQMXReu2DIotjZO0uHQqBUe";
 $cmd = "_notify-synch";
 $arr_var;
 $posted;
@@ -126,7 +126,7 @@ $sql_donor .= "\"$shipTo_country\", ";
 $sql_donor .= "NOW(), ";
 $sql_donor .= "NOW())";
 
-$result_donor = @mysql_query($sql_donor, $connection) or die("Error #". mysql_errno() . ": " . mysql_error());
+//$result_donor = @mysql_query($sql_donor, $connection) or die("Error #". mysql_errno() . ": " . mysql_error());
 
 //=======================================
 // pull donor just entered to get donor.id
@@ -137,13 +137,13 @@ $sql_donor_id .="id ";
 $sql_donor_id .="FROM donors ";
 $sql_donor_id .="WHERE email = \"$billTo_email\"";
 
-$result_donor_id = @mysql_query($sql_donor_id, $connection) or die("Error #". mysql_errno() . ": " . mysql_error());
-$total_found_donor_id = @mysql_num_rows($result_donor_id);
+//$result_donor_id = @mysql_query($sql_donor_id, $connection) or die("Error #". mysql_errno() . ": " . mysql_error());
+//$total_found_donor_id = @mysql_num_rows($result_donor_id);
 
-while ($row = mysql_fetch_array($result_donor_id))
-{
-  $donor_id = $row['id'];
-}
+//while ($row = mysql_fetch_array($result_donor_id))
+//{
+//  $donor_id = $row['id'];
+//}
 
 //=======================================
 // billings
@@ -190,7 +190,7 @@ $sql_billing .= "\"$billTo_phoneNumber\", ";
 $sql_billing .= "NOW(), ";
 $sql_billing .= "NOW())";
 
-$result_billing = @mysql_query($sql_billing, $connection) or die("Error #". mysql_errno() . ": " . mysql_error());
+//$result_billing = @mysql_query($sql_billing, $connection) or die("Error #". mysql_errno() . ": " . mysql_error());
 
 //=======================================
 // time_slots
@@ -208,23 +208,6 @@ foreach ($time_ids as &$value)
   $value = substr($value, 1, stripos($value, ',')-1);
  }
 
-
-foreach ($time_ids as $key => $times_selected)
-{
-$sql_days ="INSERT INTO selections ";
-$sql_days .="(donor_id, ";
-$sql_days .="time_slot_id, ";
-$sql_days .= "created_at, ";
-$sql_days .= "updated_at) ";
-$sql_days .="VALUES ";
-$sql_days .="(\"$donor_id\", ";
-$sql_days .="\"$times_selected\", ";
-$sql_days .= "NOW(), ";
-$sql_days .= "NOW())";
-  
-$result_days = @mysql_query($sql_days, $connection) or die("Error #". mysql_errno() . ": " . mysql_error());
-
-}
 
 //=======================================
 // time_slots display
