@@ -166,10 +166,10 @@ while ($row = mysql_fetch_array($total_time_slots));
 <p>If you would like to enter these times slots into the raffle, click the PayPal<sup>&reg;</sup> "Buy Now" button below to complete your transaction. Madison Valley Medical Center Foundation utilizes PayPal<sup>&reg;</sup> for ICE JAM payment transaction processing.</p>
 
 <!-- switch between sandbox and www and business name jim30@toliveistofly.com vs ctrapp@mvmcf.org -->
-<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 <input type="hidden" name="cmd" value="_cart">
 <input type="hidden" name="upload" value="1">
-<input type="hidden" name="business" value="jim30@toliveistofly.com">
+<input type="hidden" name="business" value="ctrapp@mvmcf.org">
 <?php echo $paypal_block ?>
 <div align="center">
 <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
