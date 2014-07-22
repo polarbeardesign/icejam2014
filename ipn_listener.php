@@ -17,6 +17,7 @@ function array_key_exists_wildcard($sWildKey, $aArray)
     return $aFinal;
 }
 
+
 // read the post from PayPal system and add _notify-validate
 $req = 'cmd=_notify-validate';
 foreach ($_POST as $key => $value) {
@@ -28,7 +29,7 @@ foreach ($_POST as $key => $value) {
 $header .= "POST /cgi-bin/webscr HTTP/1.1\r\n";
 $header .= "Content-Type: application/x-www-form-urlencoded\r\n";
 // $header .= "Host: www.paypal.com\r\n";  // www.sandbox.paypal.com for a test site
-$header .= "Host: www.sandbox.paypal.com\r\n";
+$header .= "Host: www.paypal.com\r\n";
 $header .= "Content-Length: " . strlen($req) . "\r\n";
 $header .= "Connection: close\r\n\r\n";
 
@@ -37,7 +38,7 @@ $header .= "Connection: close\r\n\r\n";
 //$fp = fsockopen ('www.sandbox.paypal.com', 80, $errno, $errstr, 30);
 
 
-$fp = fsockopen ('ssl://www.sandbox.paypal.com', 443, $errno, $errstr, 30);
+$fp = fsockopen ('ssl://www.paypal.com', 443, $errno, $errstr, 30);
 
 if (!$fp) {
 // HTTP error...

@@ -12,7 +12,7 @@ include('../inc/db_conn.php');
 
 date_default_timezone_set("America/Chicago");
 
-$donor_id = $_GET['id'];
+$id = $_GET['id'];
 
 //==========================
 // For donor detail
@@ -30,7 +30,7 @@ $sql_donor_detail .= "state, ";
 $sql_donor_detail .= "postal_code, ";
 $sql_donor_detail .= "country ";
 $sql_donor_detail .= "FROM donors ";
-$sql_donor_detail .= "WHERE id = \"$donor_id\"";
+$sql_donor_detail .= "WHERE id = \"$id\"";
 
 
 $total_donor_detail = @mysql_query($sql_donor_detail, $connection) or die("Error #". mysql_errno() . ": " . mysql_error());
@@ -49,6 +49,41 @@ $postal_code = $row['postal_code'];
 $country = $row['country'];
 
 }
+
+//==========================
+// For time slots
+//==========================
+
+$sql_time_slots = "SELECT ";
+$sql_time_slots .= "time_slot_id, ";
+$sql_time_slots .= "donor_id, ";
+$sql_time_slots .= "DATE_FORMAT(start_time, '%b %d') AS start_date, ";
+$sql_time_slots .= "DATE_FORMAT(start_time, '%H:%i') AS start_time_f, ";
+$sql_time_slots .= "DATE_FORMAT(end_time, '%H:%i') AS end_time_f, ";
+$sql_time_slots .= "DATE_FORMAT(selections.created_at, '%b %d, %Y') AS tx_date_f ";
+$sql_time_slots .= "FROM selections ";
+$sql_time_slots .= "LEFT JOIN  time_slots ";
+$sql_time_slots .= "ON time_slots.id = time_slot_id ";
+$sql_time_slots .= "WHERE donor_id = \"$id\" ";
+$sql_time_slots .= "ORDER BY start_time_f, start_time";
+
+$total_time_slots = @mysql_query($sql_time_slots, $connection) or die("Error #". mysql_errno() . ": " . mysql_error());
+$total_found_time_slots = @mysql_num_rows($total_time_slots);
+
+$last_hour = '';
+$last_date = '';
+
+do {
+  if ($row['donor_id'] != "") 
+    {
+  $display_block .="<tr>
+                   <td>" . $row['start_date'] . " " . $row['start_time_f'] . "-" . $row['end_time_f'] . "</td>
+                   <td align=\"right\">" . $row['tx_date_f'] . "</td></tr>";
+    }
+}
+
+
+while ($row = mysql_fetch_array($total_time_slots));
 
 
 
@@ -83,10 +118,11 @@ $country = $row['country'];
      <div class="feature">
 <p>&nbsp;</p>
 <h1>Ice Jam Admin</h1>
-<p>&nbsp;</p>
-<h2>Donor Detail</h2>
 
 <table class="legible">
+  <tr>
+    <th colspan="2">Donor Detail</th>
+  </tr>
   <tr>
     <td>Name:</td>
     <td><strong><?php echo "$first_name $last_name"; ?></strong></td>
@@ -99,6 +135,15 @@ $country = $row['country'];
     <td>Email:</td>
     <td><strong><?php echo "$email"; ?></strong></td>
   </tr>
+</table>
+
+<h2>Time Slot Selections:</h2>
+
+<table class="legible">
+ <tr>
+   <th width="150">Selected&nbsp;Time</th><th width="150">Trans. Date</th>
+  </tr>
+ <?php echo $display_block ?>
 </table>
 
 </section>

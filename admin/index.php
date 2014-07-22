@@ -27,7 +27,7 @@ $total_found_summary_slots = @mysql_num_rows($total_summary_slots);
 while ($row = mysql_fetch_array($total_summary_slots)) {
 
 $qty=$row['qty'];
-$revenue = number_format($qty * 20, 2);
+$revenue = number_format($qty * 10, 2);
 
 }
 
@@ -43,30 +43,35 @@ $sql_time_slots .= "last_name, ";
 $sql_time_slots .= "donor_id, ";
 $sql_time_slots .= "DATE_FORMAT(start_time, '%b %d') AS start_date, ";
 $sql_time_slots .= "DATE_FORMAT(start_time, '%H:%i') AS start_time_f, ";
-$sql_time_slots .= "DATE_FORMAT(end_time, '%H:%i') AS end_time_f ";
+$sql_time_slots .= "DATE_FORMAT(end_time, '%H:%i') AS end_time_f, ";
+$sql_time_slots .= "DATE_FORMAT(selections.created_at, '%b %d, %Y') AS tx_date_f ";
 $sql_time_slots .= "FROM selections ";
 $sql_time_slots .= "LEFT JOIN  time_slots ";
 $sql_time_slots .= "ON time_slots.id = time_slot_id ";
 $sql_time_slots .= "LEFT JOIN  donors ";
 $sql_time_slots .= "ON donors.id = donor_id ";
 $sql_time_slots .= "WHERE selections.created_at > \"2014-06-15\" ";
-$sql_time_slots .= "ORDER BY start_time_f, start_time";
+$sql_time_slots .= "ORDER BY donor_id, start_time_f, start_time";
 
 $total_time_slots = @mysql_query($sql_time_slots, $connection) or die("Error #". mysql_errno() . ": " . mysql_error());
 $total_found_time_slots = @mysql_num_rows($total_time_slots);
-$row_color=($row_count%2)?$row_1:$row_2;
-
-$last_hour = '';
-$last_date = '';
+$last_donor_id = "";
 
 do {
-  if ($row['donor_id'] != "") 
+  if ($row['donor_id'] != "" )
     {
-  $display_block .="<tr><td><a href=\"donor_detail.php?id=" . $row['donor_id'] . "\">" . $row['first_name'] . " ". $row['last_name'] . "</a></td>
-                   <td>" . $row['start_date'] . " " . $row['start_time_f'] . "-" . $row['end_time_f'] . "</td></tr>";
+  if ($row['donor_id'] != $last_donor_id) 
+    {
+  $display_block .="<tr><td><a href=\"donor_detail.php?id=" . $row['donor_id'] . "\">" . $row['first_name'] . " ". $row['last_name'] . " - " . $row['tx_date_f'] . "</a></td></tr>
+                    <tr><td style=\"text-align: right;\">" . $row['start_date'] . " " . $row['start_time_f'] . "-" . $row['end_time_f'] . "</td></tr>";
+    }
+  else
+    {
+  $display_block .="<tr><td style=\"text-align: right;\">" . $row['start_date'] . " " . $row['start_time_f'] . "-" . $row['end_time_f'] . "</td></tr>";
     }
 }
-
+$last_donor_id = $row['donor_id'];
+}
 while ($row = mysql_fetch_array($total_time_slots));
 
 
@@ -109,7 +114,7 @@ while ($row = mysql_fetch_array($total_time_slots));
 
 <table class="legible">
  <tr>
-   <th width="150"> Donor&nbsp;Name </th><th width="150">Selected&nbsp;Time</th>
+   <th width="300">Donor - Trans. Date<br /><div style="text-align: right;">Selections</div></th>
   </tr>
  <?php echo $display_block ?>
 </table>
