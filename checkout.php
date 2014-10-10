@@ -64,7 +64,7 @@ if (count($_POST) == 1)
 $length = count($_POST) - 1;
 $selections = array_slice($_POST, 0, $length, true);
 
-$total_cost = 10 * $length;
+$total_cost = 5 * $length;
 
 $time_slot_id .= "(";
 foreach ($selections as $key => $selections)
@@ -101,7 +101,7 @@ $display_block .="<tr>
 
 $paypal_block .="
 <input type=\"hidden\" name=\"item_name_" . $index . "\" value=\"#" . $row['id'] . ", " . $row['start_date'] . ", " . $row['start_time_f'] . " - " . $row['end_time_f'] . "\">
-<input type=\"hidden\" name=\"amount_" . $index . "\" value=\"10.00\">
+<input type=\"hidden\" name=\"amount_" . $index . "\" value=\"5.00\">
 <input type=\"hidden\" name=\"quantity_" . $index . "\" value=\"1\">";
 $index = $index + 1;
   }
