@@ -12,7 +12,9 @@
 <div id="container">
 <div id="page_content">
 
-<p style="margin: 2em;">IceJam is no longer available. A big thank you for those that participated in the Predict the Madison River Gorge Fundraiser. Your donation helped fund vital services at the Madison Valley Medical Center Foundation.</p>
+<p style="margin: 2em;">IceJam is no longer available.</p>
+
+<p style="margin: 2em;">A big thank you for those that participated in the Predict the Madison River Gorge Fundraiser. Your donation helped fund vital services at the Madison Valley Medical Center Foundation.</p>
 </div>
 <section id="footer">
   <?php include("inc/footer.php") ?>
